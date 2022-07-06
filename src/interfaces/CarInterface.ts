@@ -1,8 +1,8 @@
 import { Schema } from 'mongoose';
 import { z } from 'zod';
-import { Vehicle } from './VehicleInterface';
+import { Vehicle, VehicleSchema } from './VehicleInterface';
 
-const CarSchema = z.object({
+export const CarSchema = VehicleSchema.extend({
   doorsQty: z.number().min(2).max(4),
   seatsQty: z.number().min(2).max(7),
 });
