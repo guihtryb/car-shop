@@ -1,9 +1,8 @@
-import { model as createModel } from 'mongoose';
-import { Car, carMongooseSchema } from '../interfaces/CarInterface';
+import { Car, carMongooseModel } from '../interfaces/CarInterface';
 import BaseModel from './BaseModel';
 
 export default class CarModel extends BaseModel<Car> {
-  constructor(model = createModel('Cars', carMongooseSchema)) {
+  constructor(model = carMongooseModel) {
     super(model);
   }
 }

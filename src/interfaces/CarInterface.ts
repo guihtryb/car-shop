@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { z } from 'zod';
 import { Vehicle, VehicleSchema } from './VehicleInterface';
 
@@ -18,3 +18,5 @@ export const carMongooseSchema = new Schema<Car>({
   doorsQty: Number,
   seatsQty: Number,
 }, { versionKey: false });
+
+export const carMongooseModel = model('Cars', carMongooseSchema);
