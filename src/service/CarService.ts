@@ -17,6 +17,14 @@ export default class CarService extends BaseService<Car> {
   }
 
   public async readOne(_id: string): Promise<Car | ServiceError | null> {
+    const hexaDecRegExp = /[0-9A-Fa-f]{24}/;
+
+    const isIdCorrect = hexaDecRegExp.test(_id);
+
+    if (!isIdCorrect) {
+      return { error: 'Id must have 24 hexadecimal characters' };
+    }
+
     const carSearched = await this.model.readOne(_id);
 
     if (!carSearched) return null;
