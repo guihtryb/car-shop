@@ -31,7 +31,7 @@ export default class CarController extends BaseController<Car> {
     try {
       const newCar = await this.service.create(body);
 
-      return res.status(this.statusCode.SUCCESFULLY_REQUESTED).json(newCar);
+      return res.status(this.statusCode.SUCCESFULLY_CREATED).json(newCar);
     } catch (error) {
       return res.status(this.statusCode.INTERNAL).json({
         error: this.errors.INTERNAL,
