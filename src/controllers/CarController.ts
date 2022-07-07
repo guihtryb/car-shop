@@ -27,13 +27,18 @@ export default class CarController extends BaseController<Car> {
     res: Response<Car | ResponseError>,
   ): Promise<typeof res> => {
     const { body } = req;
+    const { BAD_REQUEST, SUCCESFULLY_CREATED, INTERNAL } = this.statusCode;
 
     try {
       const newCar = await this.service.create(body);
 
-      return res.status(this.statusCode.SUCCESFULLY_CREATED).json(newCar);
+      if ('error' in newCar) {
+        return res.status(BAD_REQUEST).json({ error: this.errors.BAD_REQUEST });
+      }
+
+      return res.status(SUCCESFULLY_CREATED).json(newCar);
     } catch (error) {
-      return res.status(this.statusCode.INTERNAL).json({
+      return res.status(INTERNAL).json({
         error: this.errors.INTERNAL,
       });
     }
