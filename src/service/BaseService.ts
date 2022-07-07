@@ -6,7 +6,7 @@ export default abstract class BaseService<T> implements Service<T> {
     protected model: BaseModel<T>,
   ) { }
 
-  public async create(payload: T): Promise<T | ServiceError | null> {
+  public async create(payload: T): Promise<T | ServiceError> {
     return this.model.create(payload);
   }
 

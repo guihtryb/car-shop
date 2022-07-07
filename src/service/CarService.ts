@@ -10,7 +10,7 @@ export default class CarService extends BaseService<Car> {
     super(model);
   }
 
-  public async create(carObj: Car): Promise<Car | ServiceError | null> {
+  public async create(carObj: Car): Promise<Car | ServiceError> {
     const parsed = CarSchema.safeParse(carObj);
 
     return parsed.success ? this.model.create(carObj) : { error: parsed.error };
