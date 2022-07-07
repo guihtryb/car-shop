@@ -10,6 +10,11 @@ export const CarSchema = VehicleSchema.extend({
 export interface Car extends z.infer<typeof CarSchema>, Vehicle { }
 
 export const carMongooseSchema = new Schema<Car>({
+  model: String,
+  year: Number,
+  color: String,
+  status: Boolean,
+  buyValue: Number,
   doorsQty: Number,
   seatsQty: Number,
-});
+}, { versionKey: false });

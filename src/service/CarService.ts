@@ -36,14 +36,23 @@ export default class CarService extends BaseService<Car> {
     _id: string,
     payload: Car,
   ): Promise<Car | ServiceError | null> {
+    const hexaDecRegExp = /[0-9A-Fa-f]{24}/;
+
+    const isIdCorrect = hexaDecRegExp.test(_id);
+
+    if (!isIdCorrect) {
+      return { error: 'Id must have 24 hexadecimal characters' };
+    }
+
     const carToUpdate = await this.model.readOne(_id);
 
     if (!carToUpdate) return null;
 
     const newCarData = CarSchema.safeParse(payload);
 
-    return newCarData.success ? this.model
-      .update(_id, payload) : { error: newCarData.error };
+    if (!newCarData.success) return { error: newCarData.error };
+
+    return this.model.update(_id, payload);
   }
 
   public async delete(_id: string): Promise<Car | ServiceError | null> {

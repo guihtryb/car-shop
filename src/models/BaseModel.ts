@@ -13,10 +13,15 @@ export default abstract class BaseModel<T> implements Model<T> {
   public readOne = async (_id: string): Promise<T | null> => this
     .model.findOne({ _id });
 
-  public update = async (_id: string, payload: T): Promise<T | null> => {
-    await this.model.updateOne({ _id }, { payload });
+  public update = async (
+    _id: string,
+    payload: T,
+  ): Promise<T | null> => {
+    const toUpdate = await this.model.findById(_id);
 
-    return this.model.findById(_id);
+    await toUpdate?.update(payload);
+
+    return toUpdate;
   };
 
   public delete = async (_id: string): Promise<T | null> => {

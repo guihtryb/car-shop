@@ -89,15 +89,13 @@ export default class CarController extends BaseController<Car> {
     const { body } = req;
     const { id } = req.params;
     try {
-      const carUpdated = await this.service.update(id, body);
+      const car = await this.service.update(id, body);
 
-      if (!carUpdated) {
-        return res.status(404).json({
-          error: this.errors.NOT_FOUND,
-        });
-      }
+      if (!car) return res.status(404).json({ error: this.errors.NOT_FOUND });
 
-      return res.status(200).json(carUpdated);
+      if ('error' in car) return res.status(400).json({ error: car.error });
+      // wip - avaliar car
+      return res.status(200).json(car);
     } catch (error) {
       return res.status(500).json({ error });
     }
