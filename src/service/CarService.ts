@@ -54,9 +54,7 @@ export default class CarService extends BaseService<Car> {
   public async delete(_id: string): Promise<Car | ServiceError | null> {
     const isIdCorrect = this.idRegExp.test(_id);
 
-    if (!isIdCorrect) {
-      return { error: this.incorrectIdError };
-    }
+    if (!isIdCorrect) return { error: this.incorrectIdError };
 
     const carToDelete = await this.model.readOne(_id);
 

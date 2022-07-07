@@ -94,7 +94,7 @@ export default class CarController extends BaseController<Car> {
       if (!car) return res.status(404).json({ error: this.errors.NOT_FOUND });
 
       if ('error' in car) return res.status(400).json({ error: car.error });
-      // wip - avaliar car
+
       return res.status(200).json(car);
     } catch (error) {
       return res.status(500).json({ error });
