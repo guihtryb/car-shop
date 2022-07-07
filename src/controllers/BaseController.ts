@@ -11,24 +11,14 @@ import BaseService from '../service/BaseService';
 
 enum ControllerErros {
   INTERNAL = 'Internal Server Error',
-  NOT_FOUND = 'Item Not Found',
+  NOT_FOUND = 'Object not found',
   BAD_REQUEST = 'Invalid Data Format',
-}
-
-enum StatusCode {
-  SUCCESFULLY_REQUESTED = 200,
-  SUCCESFULLY_CREATED,
-  BAD_REQUEST = 400,
-  NOT_FOUND = 404,
-  INTERNAL = 500,
 }
 
 export default abstract class BaseController<T> implements Controller<T> {
   abstract route: string;
 
   protected errors = ControllerErros;
-
-  protected statusCode = StatusCode;
 
   constructor(protected service: BaseService<T>) { }
 
@@ -44,9 +34,9 @@ export default abstract class BaseController<T> implements Controller<T> {
     try {
       const items = await this.service.read();
 
-      return res.status(StatusCode.SUCCESFULLY_REQUESTED).json(items);
+      return res.status(200).json(items);
     } catch (error) {
-      return res.status(StatusCode.INTERNAL).json({
+      return res.status(500).json({
         error: this.errors.INTERNAL,
       });
     }

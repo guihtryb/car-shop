@@ -27,18 +27,17 @@ export default class CarController extends BaseController<Car> {
     res: Response<Car | ResponseError>,
   ): Promise<typeof res> => {
     const { body } = req;
-    const { BAD_REQUEST, SUCCESFULLY_CREATED, INTERNAL } = this.statusCode;
 
     try {
       const newCar = await this.service.create(body);
 
       if ('error' in newCar) {
-        return res.status(BAD_REQUEST).json({ error: this.errors.BAD_REQUEST });
+        return res.status(400).json({ error: this.errors.BAD_REQUEST });
       }
 
-      return res.status(SUCCESFULLY_CREATED).json(newCar);
+      return res.status(201).json(newCar);
     } catch (error) {
-      return res.status(INTERNAL).json({
+      return res.status(500).json({
         error: this.errors.INTERNAL,
       });
     }
@@ -51,9 +50,9 @@ export default class CarController extends BaseController<Car> {
     try {
       const cars = await this.service.read();
 
-      return res.status(this.statusCode.SUCCESFULLY_REQUESTED).json(cars);
+      return res.status(200).json(cars);
     } catch (error) {
-      return res.status(this.statusCode.INTERNAL).json({
+      return res.status(500).json({
         error: this.errors.INTERNAL,
       });
     }
@@ -67,15 +66,17 @@ export default class CarController extends BaseController<Car> {
     try {
       const car = await this.service.readOne(id);
 
-      if (!car) {
-        return res.status(this.statusCode.NOT_FOUND).json({
-          error: this.errors.NOT_FOUND,
+      if (!car) return res.status(404).json({ error: this.errors.NOT_FOUND });
+
+      if ('error' in car) {
+        return res.status(400).json({
+          error: car.error,
         });
       }
 
-      return res.status(this.statusCode.SUCCESFULLY_REQUESTED).json(car);
+      return res.status(200).json(car);
     } catch (error) {
-      return res.status(this.statusCode.INTERNAL).json({
+      return res.status(500).json({
         error: this.errors.INTERNAL,
       });
     }
@@ -91,14 +92,14 @@ export default class CarController extends BaseController<Car> {
       const carUpdated = await this.service.update(id, body);
 
       if (!carUpdated) {
-        return res.status(this.statusCode.NOT_FOUND).json({
+        return res.status(404).json({
           error: this.errors.NOT_FOUND,
         });
       }
 
-      return res.status(this.statusCode.SUCCESFULLY_REQUESTED).json(carUpdated);
+      return res.status(200).json(carUpdated);
     } catch (error) {
-      return res.status(this.statusCode.INTERNAL).json({ error });
+      return res.status(500).json({ error });
     }
   };
 
@@ -111,14 +112,14 @@ export default class CarController extends BaseController<Car> {
       const carDeleted = await this.service.delete(id);
 
       if (!carDeleted) {
-        return res.status(this.statusCode.NOT_FOUND).json({
+        return res.status(404).json({
           error: this.errors.NOT_FOUND,
         });
       }
 
-      return res.status(this.statusCode.SUCCESFULLY_REQUESTED).json(carDeleted);
+      return res.status(200).json(carDeleted);
     } catch (error) {
-      return res.status(this.statusCode.INTERNAL).json({ error });
+      return res.status(500).json({ error });
     }
   };
 }
