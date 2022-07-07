@@ -17,12 +17,10 @@ export default class CarService extends BaseService<Car> {
   }
 
   public async readOne(_id: string): Promise<Car | ServiceError | null> {
-    const hexaDecRegExp = /[0-9A-Fa-f]{24}/;
-
-    const isIdCorrect = hexaDecRegExp.test(_id);
+    const isIdCorrect = this.idRegExp.test(_id);
 
     if (!isIdCorrect) {
-      return { error: 'Id must have 24 hexadecimal characters' };
+      return { error: this.incorrectIdError };
     }
 
     const carSearched = await this.model.readOne(_id);
@@ -36,12 +34,10 @@ export default class CarService extends BaseService<Car> {
     _id: string,
     payload: Car,
   ): Promise<Car | ServiceError | null> {
-    const hexaDecRegExp = /[0-9A-Fa-f]{24}/;
-
-    const isIdCorrect = hexaDecRegExp.test(_id);
+    const isIdCorrect = this.idRegExp.test(_id);
 
     if (!isIdCorrect) {
-      return { error: 'Id must have 24 hexadecimal characters' };
+      return { error: this.incorrectIdError };
     }
 
     const carToUpdate = await this.model.readOne(_id);
@@ -56,12 +52,16 @@ export default class CarService extends BaseService<Car> {
   }
 
   public async delete(_id: string): Promise<Car | ServiceError | null> {
+    const isIdCorrect = this.idRegExp.test(_id);
+
+    if (!isIdCorrect) {
+      return { error: this.incorrectIdError };
+    }
+
     const carToDelete = await this.model.readOne(_id);
 
     if (!carToDelete) return null;
 
-    await this.model.delete(_id);
-
-    return carToDelete;
+    return this.model.delete(_id);
   }
 }

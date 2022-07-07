@@ -1,7 +1,14 @@
 import { Service, ServiceError } from '../interfaces/ServiceInterface';
 import BaseModel from '../models/BaseModel';
 
+const hexaDecRegExp = /[0-9A-Fa-f]{24}/;
+const idErrorMessage = 'Id must have 24 hexadecimal characters';
+
 export default abstract class BaseService<T> implements Service<T> {
+  protected idRegExp = hexaDecRegExp;
+
+  protected incorrectIdError = idErrorMessage;
+
   constructor(
     protected model: BaseModel<T>,
   ) { }

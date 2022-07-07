@@ -107,15 +107,17 @@ export default class CarController extends BaseController<Car> {
   ): Promise<typeof res> => {
     const { id } = req.params;
     try {
-      const carDeleted = await this.service.delete(id);
+      const car = await this.service.delete(id);
 
-      if (!carDeleted) {
-        return res.status(404).json({
-          error: this.errors.NOT_FOUND,
+      if (!car) return res.status(404).json({ error: this.errors.NOT_FOUND });
+
+      if ('error' in car) {
+        return res.status(400).json({
+          error: car.error,
         });
       }
 
-      return res.status(200).json(carDeleted);
+      return res.status(204).json(car);
     } catch (error) {
       return res.status(500).json({ error });
     }

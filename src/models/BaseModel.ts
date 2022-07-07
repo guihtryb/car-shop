@@ -24,9 +24,7 @@ export default abstract class BaseModel<T> implements Model<T> {
     return toUpdate;
   };
 
-  public delete = async (_id: string): Promise<T | null> => {
-    await this.model.deleteOne({ _id });
-
-    return this.model.findById(_id);
-  };
+  public delete = async (
+    _id: string,
+  ): Promise<T | null> => this.model.findOneAndDelete({ _id });
 }
