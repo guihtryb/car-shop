@@ -10,10 +10,10 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Sua descrição', () => {
+// describe('Sua descrição', () => {
 
-  beforeEach(sinon.restore);
+//   beforeEach(sinon.restore);
 
-  it('', async () => { });
+//   it('', async () => { });
 
-});
+// });

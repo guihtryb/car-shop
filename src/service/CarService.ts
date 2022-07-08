@@ -1,11 +1,11 @@
 import { Car, CarSchema } from '../interfaces/CarInterface';
 import { ServiceError } from '../interfaces/ServiceInterface';
-import CarModel from '../models/CarModel';
+import { carModel } from '../models/CarModel';
 import BaseService from './BaseService';
 
 export default class CarService extends BaseService<Car> {
   constructor(
-    protected model = new CarModel(),
+    protected model = carModel,
   ) {
     super(model);
   }
@@ -46,9 +46,8 @@ export default class CarService extends BaseService<Car> {
 
     const newCarData = CarSchema.safeParse(payload);
 
-    if (!newCarData.success) return { error: newCarData.error };
-
-    return this.model.update(_id, payload);
+    return !newCarData.success ? { error: newCarData.error }
+      : this.model.update(_id, payload);
   }
 
   public async delete(_id: string): Promise<Car | ServiceError | null> {

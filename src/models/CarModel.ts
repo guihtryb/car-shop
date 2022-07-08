@@ -6,3 +6,5 @@ export default class CarModel extends BaseModel<Car> {
     super(model);
   }
 }
+
+export const carModel = new CarModel();
