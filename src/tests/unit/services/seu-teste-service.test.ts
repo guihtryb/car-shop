@@ -46,8 +46,22 @@ describe('Testing Car Service', () => {
     });
   });
 
+  describe('Read Cars', () => {
+    it('On Success', async () => {
+      sinon.stub(carModel, 'read').resolves([carMock]);
+
+      const carService = new CarService();
+
+      const cars = await carService.read()
+
+      expect(cars).to.be.deep.equal([carMock]);
+    });
+  });
+
   describe('Read one Car', () => {
     it('On Failure by passing an invalid id', async () => {
+      sinon.stub(carModel, 'readOne').resolves(null);
+
       const carService = new CarService();
 
       const car = await carService.readOne('invalid_id')
@@ -64,6 +78,7 @@ describe('Testing Car Service', () => {
 
       expect(carsCreated).to.be.deep.equal(null);
     });
+
     it('On Success', async () => {
       sinon.stub(carModel, 'readOne').resolves(carMock);
 
