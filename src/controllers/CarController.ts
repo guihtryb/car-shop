@@ -4,7 +4,7 @@ import {
   RequestWithBody,
   ResponseError,
 } from '../interfaces/ControllerInterface';
-import CarService from '../service/CarService';
+import CarService from '../services/CarService';
 import BaseController from './BaseController';
 
 export default class CarController extends BaseController<Car> {

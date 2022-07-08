@@ -7,7 +7,7 @@ Controller,
   ResponseError,
 } from '../interfaces/ControllerInterface';
 
-import BaseService from '../service/BaseService';
+import BaseService from '../services/BaseService';
 
 enum ControllerErros {
   INTERNAL = 'Internal Server Error',
