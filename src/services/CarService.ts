@@ -62,3 +62,5 @@ export default class CarService extends BaseService<Car> {
     return this.model.delete(_id);
   }
 }
+
+export const carService = new CarService();

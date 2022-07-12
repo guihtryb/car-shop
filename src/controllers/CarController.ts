@@ -4,14 +4,14 @@ import {
   RequestWithBody,
   ResponseError,
 } from '../interfaces/ControllerInterface';
-import CarService from '../services/CarService';
+import { carService } from '../services/CarService';
 import BaseController from './BaseController';
 
 export default class CarController extends BaseController<Car> {
   private _route: string;
 
   constructor(
-    service = new CarService(),
+    service = carService,
     route = '/cars',
   ) {
     super(service);
@@ -97,7 +97,7 @@ export default class CarController extends BaseController<Car> {
 
       return res.status(200).json(car);
     } catch (error) {
-      return res.status(500).json({ error });
+      return res.status(500).json({ error: this.errors.INTERNAL });
     }
   };
 
