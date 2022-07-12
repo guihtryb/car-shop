@@ -119,7 +119,7 @@ export default class CarController extends BaseController<Car> {
 
       return res.status(204).json(car);
     } catch (error) {
-      return res.status(500).json({ error });
+      return res.status(500).json({ error: this.errors.INTERNAL });
     }
   };
 }
