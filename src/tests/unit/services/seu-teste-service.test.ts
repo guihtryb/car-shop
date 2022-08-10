@@ -1,6 +1,4 @@
 import { expect } from 'chai';
-// import mongoose from 'mongoose';
-
 import * as sinon from 'sinon';
 import { Car, CarSchema } from '../../../interfaces/CarInterface';
 import { carMock, idMock } from '../mocks/carModel';
